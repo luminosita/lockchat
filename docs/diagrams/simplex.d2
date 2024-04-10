@@ -1,0 +1,81 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    # Terminal theme code
+    theme-id: 300
+  }
+}
+
+gateway: {
+  gateway 1: {
+    shape: hexagon
+  }  
+  gateway 2: {
+    shape: hexagon
+  }  
+  gateway 3: {
+    shape: hexagon
+  }  
+}
+
+users: {
+  user 1: {
+    shape: person
+  }
+  user 2: {
+    shape: person
+  }
+  user 3: {
+    shape: person
+  }
+}
+
+servers: {
+  chat server 1: {
+    shape: queue
+  }
+  file server 1: {
+    shape: cylinder
+  }
+  chat server 2: {
+    shape: queue
+  }
+  file server 2: {
+    shape: cylinder
+  }
+  chat server 3: {
+    shape: queue
+  }
+  file server 3: {
+    shape: cylinder
+  }
+}
+
+tor: {
+  shape: cloud
+}
+
+users.user 1 -> gateway.gateway 2: send message
+gateway.gateway 3 -> users.user 2: receive message
+users.user 2 -> gateway.gateway 3: send message
+users.user 3 -> gateway.gateway 1: send message
+
+gateway.gateway 1 -> tor
+gateway.gateway 2 -> tor
+gateway.gateway 3 -> tor
+
+tor -> servers.chat server 1
+tor -> servers.file server 1
+tor -> servers.chat server 2
+tor -> servers.file server 2
+tor -> servers.chat server 3
+tor -> servers.file server 3
+
+servers.chat server 1 -> tor
+servers.file server 1 -> tor
+servers.chat server 2 -> tor
+servers.file server 2 -> tor
+servers.chat server 3 -> tor
+servers.file server 3 -> tor
+
+
